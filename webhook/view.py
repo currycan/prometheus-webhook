@@ -26,12 +26,10 @@ def sendmessage(request):
         if rs:
             body_unicode = request.body.decode('utf-8')
             body = json.loads(body_unicode)
-            receiver = body['receiver']
-            for alert in body['alerts']:
-                alert_content = str(alert['annotations']['description'])
-                SendAlert(receiver, alert_content)
-
-    return HttpResponse("ok")
+            title = body['title']
+            alert_content = body['alert_content']
+            SendAlert_wechat(title, alert_content)
+    return HttpResponse("ok"), body
 
 @csrf_exempt
 def index(request):
