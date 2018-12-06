@@ -10,10 +10,17 @@
  cd prometheus-webhook 
  pip install Pillow
  python manage.py migrate
- python manager.py syncdb # 设置登录admin的账号密码 
+ python manage.py syncdb # 设置登录admin的账号密码 
  python runserver 0.0.0.0:8080 启动服务
 ```
-
+---
+### docker：
+ ```
+ docker run --name webhook -d -p 8081:8080 harbor.iibu.com/base/promwwbhook:v0.01
+ docker exec -it webhook python manage.py migrate
+ docker exec -it webhook python manage.py changepassword admin # 设置登录admin的账号密码:Pass123word
+```
+浏览器访问：http://192.168.43.92:8081/
 
 ### 配置项
 
