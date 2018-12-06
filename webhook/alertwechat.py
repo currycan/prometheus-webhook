@@ -30,9 +30,6 @@ def wechat_msg(w_id, title, details="hello"):
                           (title, details)
                }
            }
-        print('sed``````````````````')
-        status.append(requests.post(url, json.dumps(values)).status_code)
-        print('sed``````````````````')
     rs = Wechat_Log.objects.create(wechat=w_id, content=details)
     rs.save()
 
