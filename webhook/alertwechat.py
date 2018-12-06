@@ -16,17 +16,9 @@ def get_token():
     return data["access_token"]
 
 
-def wechat_msg(w_id, title, startsAt,  stats, level="xx", details="yy"):
+def wechat_msg(w_id, title, details="hello"):
     url = ("https://qyapi.weixin.qq.com/cgi-bin/message/send"
           "?access_token={}").format(get_token())
-    if level == "fatal":
-        style = 'highlight'
-    else:
-        style = 'normal'
-        '''
-        description" : "<div class=\"gray\">2016年9月26日</div> <div class=\"normal\">
-        恭喜你抽中iPhone 7一台，领奖码：xxxx</div><div class=\"highlight\">请于2016年10月10日前联系行政同事领取</div>"'''
-    status = list()
     for i in w_id:
         values = {
            "touser": i,
@@ -34,17 +26,14 @@ def wechat_msg(w_id, title, startsAt,  stats, level="xx", details="yy"):
            "agentid": Wechat_Config.objects.get(pk=2).wechat_agent_id,
            #  'title': u"标题: Prometheus警报信息",
            "text": {
-               "content": u"标题: %s \n状态: %s \n等级：%s \n时间: %s \n详情: %s" %
-                          (title, stats, level, startsAt, details)
-           }
-           #  "description": "<div class=\"gray\">%s</div>"
-           # " <div class=%s>%s</div>" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()), style, details),
-           #  'url': 'http://www.baidu.com'
+               "content": u"标题: %s \n 详情: %s" %
+                          (title, details)
+               }
            }
         print('sed``````````````````')
         status.append(requests.post(url, json.dumps(values)).status_code)
         print('sed``````````````````')
-    rs = Wechat_Log.objects.create(wechat=w_id, content=details, status=status)
+    rs = Wechat_Log.objects.create(wechat=w_id, content=details)
     rs.save()
 
 
